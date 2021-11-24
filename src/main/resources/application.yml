@@ -1,0 +1,6 @@
+server:
+  port: ${PORT:8081}
+  error:
+    include-message: ${INCLUDE_ERROR:always}
+keyStore:
+  supportedTypes: PKCS12, JKS
