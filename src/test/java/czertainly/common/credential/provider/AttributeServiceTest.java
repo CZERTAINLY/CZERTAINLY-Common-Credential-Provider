@@ -22,19 +22,19 @@ public class AttributeServiceTest {
     @BeforeEach
     private void setup(){
         AttributeDefinition username = new AttributeDefinition();
-        username.setId("1b6c48ad-c1c7-4c82-91ef-3e61bc9f52ac");
+        username.setUuid("1b6c48ad-c1c7-4c82-91ef-3e61bc9f52ac");
         username.setValue("admin");
         username.setName("username");
 
         AttributeDefinition password = new AttributeDefinition();
-        password.setId("9379ca2c-aa51-42c8-8afd-2a2d16c99c56");
+        password.setUuid("9379ca2c-aa51-42c8-8afd-2a2d16c99c56");
         password.setValue("admin");
         password.setName("password");
 
         attributesBasic = Arrays.asList(username, password);
 
         AttributeDefinition apiKey = new AttributeDefinition();
-        apiKey.setId("9379ca2c-aa51-42c8-8afd-2a2d16c99c56");
+        apiKey.setUuid("9379ca2c-aa51-42c8-8afd-2a2d16c99c56");
         apiKey.setValue("ASufvjhFUtydFDFA");
         apiKey.setName("apiKey");
 
