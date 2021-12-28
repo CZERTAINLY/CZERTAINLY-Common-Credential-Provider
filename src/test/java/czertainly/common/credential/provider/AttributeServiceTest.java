@@ -1,13 +1,15 @@
 package czertainly.common.credential.provider;
 
 import com.czertainly.api.exception.ValidationException;
-import com.czertainly.api.model.AttributeDefinition;
+import com.czertainly.api.model.common.AttributeDefinition;
+import com.czertainly.api.model.common.RequestAttributeDto;
 import czertainly.common.credential.provider.service.AttributeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,24 +18,24 @@ public class AttributeServiceTest {
     @Autowired
     private AttributeService attributeService;
 
-    private List<AttributeDefinition> attributesBasic;
-    private List<AttributeDefinition> attributesApiKey;
+    private List<RequestAttributeDto> attributesBasic;
+    private List<RequestAttributeDto> attributesApiKey;
 
     @BeforeEach
     private void setup(){
-        AttributeDefinition username = new AttributeDefinition();
+        RequestAttributeDto username = new RequestAttributeDto();
         username.setUuid("1b6c48ad-c1c7-4c82-91ef-3e61bc9f52ac");
         username.setValue("admin");
         username.setName("username");
 
-        AttributeDefinition password = new AttributeDefinition();
+        RequestAttributeDto password = new RequestAttributeDto();
         password.setUuid("9379ca2c-aa51-42c8-8afd-2a2d16c99c56");
         password.setValue("admin");
         password.setName("password");
 
         attributesBasic = Arrays.asList(username, password);
 
-        AttributeDefinition apiKey = new AttributeDefinition();
+        RequestAttributeDto apiKey = new RequestAttributeDto();
         apiKey.setUuid("9379ca2c-aa51-42c8-8afd-2a2d16c99c56");
         apiKey.setValue("ASufvjhFUtydFDFA");
         apiKey.setName("apiKey");

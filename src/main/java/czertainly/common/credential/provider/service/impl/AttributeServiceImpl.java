@@ -2,12 +2,12 @@ package czertainly.common.credential.provider.service.impl;
 
 import com.czertainly.api.exception.ValidationError;
 import com.czertainly.api.exception.ValidationException;
-import com.czertainly.api.interfaces.AttributesController;
-import com.czertainly.api.model.AttributeDefinition;
-import com.czertainly.api.model.BaseAttributeDefinitionTypes;
-
+import com.czertainly.api.interfaces.connector.AttributesController;
+import com.czertainly.api.model.common.AttributeDefinition;
+import com.czertainly.api.model.common.BaseAttributeDefinitionTypes;
+import com.czertainly.api.model.common.RequestAttributeDto;
+import com.czertainly.core.util.AttributeDefinitionUtils;
 import czertainly.common.credential.provider.service.AttributeService;
-import czertainly.common.credential.provider.util.AttributeDefinitionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +71,7 @@ public class AttributeServiceImpl implements AttributeService {
     }
 
     @Override
-    public boolean validateAttributes(String kind, List<AttributeDefinition> attributes) {
+    public boolean validateAttributes(String kind, List<RequestAttributeDto> attributes) {
         switch (kind) {
             // TODO: kinds should be defined as constants, all Pascal Case
             case "SoftKeyStore":
@@ -153,7 +153,7 @@ public class AttributeServiceImpl implements AttributeService {
         return attrs;
     }
 
-    private boolean validateSofKeyStoreAttributes(List<AttributeDefinition> attributes) {
+    private boolean validateSofKeyStoreAttributes(List<RequestAttributeDto> attributes) {
         AttributeDefinitionUtils.validateAttributes(getSofKeyStoreAttributes(), attributes);
 
         try {
@@ -217,7 +217,7 @@ public class AttributeServiceImpl implements AttributeService {
         return attrs;
     }
 
-    private boolean validateBasicAttributes(List<AttributeDefinition> attributes) {
+    private boolean validateBasicAttributes(List<RequestAttributeDto> attributes) {
         AttributeDefinitionUtils.validateAttributes(getBasicAttributes(), attributes);
         return true;
     }
@@ -238,7 +238,7 @@ public class AttributeServiceImpl implements AttributeService {
         return attrs;
     }
 
-    private boolean validateApiKeyAttributes(List<AttributeDefinition> attributes) {
+    private boolean validateApiKeyAttributes(List<RequestAttributeDto> attributes) {
         AttributeDefinitionUtils.validateAttributes(getApiKeyAttributes(), attributes);
         return true;
     }
