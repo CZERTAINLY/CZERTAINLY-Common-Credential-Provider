@@ -26,7 +26,7 @@ public class AttributesControllerImpl implements AttributesController {
     }
 
     @Override
-    public boolean validateAttributes(@PathVariable String kind, @RequestBody List<RequestAttributeDto> attributes) throws ValidationException {
-        return attributeService.validateAttributes(kind, attributes);
+    public void validateAttributes(@PathVariable String kind, @RequestBody List<RequestAttributeDto> attributes) throws ValidationException {
+        attributeService.validateAttributes(kind, attributes);
     }
 }
