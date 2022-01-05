@@ -2,12 +2,12 @@ package czertainly.common.credential.provider.service.impl;
 
 import com.czertainly.api.exception.ValidationError;
 import com.czertainly.api.exception.ValidationException;
-import com.czertainly.api.interfaces.AttributesController;
-import com.czertainly.api.model.AttributeDefinition;
-import com.czertainly.api.model.BaseAttributeDefinitionTypes;
-
+import com.czertainly.api.interfaces.connector.AttributesController;
+import com.czertainly.api.model.common.AttributeDefinition;
+import com.czertainly.api.model.common.BaseAttributeDefinitionTypes;
+import com.czertainly.api.model.common.RequestAttributeDto;
+import com.czertainly.core.util.AttributeDefinitionUtils;
 import czertainly.common.credential.provider.service.AttributeService;
-import czertainly.common.credential.provider.util.AttributeDefinitionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +71,7 @@ public class AttributeServiceImpl implements AttributeService {
     }
 
     @Override
-    public boolean validateAttributes(String kind, List<AttributeDefinition> attributes) {
+    public boolean validateAttributes(String kind, List<RequestAttributeDto> attributes) {
         switch (kind) {
             // TODO: kinds should be defined as constants, all Pascal Case
             case "SoftKeyStore":
@@ -89,7 +89,7 @@ public class AttributeServiceImpl implements AttributeService {
         List<AttributeDefinition> attrs = new ArrayList<>();
 
         AttributeDefinition keyStoreType = new AttributeDefinition();
-        keyStoreType.setId("e334e055-900e-43f1-aedc-54e837028de0");
+        keyStoreType.setUuid("e334e055-900e-43f1-aedc-54e837028de0");
         keyStoreType.setName(ATTRIBUTE_KEYSTORE_TYPE);
         keyStoreType.setLabel(ATTRIBUTE_KEYSTORE_TYPE_LABEL);
         keyStoreType.setType(BaseAttributeDefinitionTypes.LIST);
@@ -100,7 +100,7 @@ public class AttributeServiceImpl implements AttributeService {
         attrs.add(keyStoreType);
 
         AttributeDefinition keyStore = new AttributeDefinition();
-        keyStore.setId("6df7ace9-c501-4d58-953c-f8d53d4fb378");
+        keyStore.setUuid("6df7ace9-c501-4d58-953c-f8d53d4fb378");
         keyStore.setName(ATTRIBUTE_KEYSTORE);
         keyStore.setLabel(ATTRIBUTE_KEYSTORE_LABEL);
         keyStore.setType(BaseAttributeDefinitionTypes.FILE);
@@ -110,7 +110,7 @@ public class AttributeServiceImpl implements AttributeService {
         attrs.add(keyStore);
 
         AttributeDefinition keyStorePassword = new AttributeDefinition();
-        keyStorePassword.setId("d975fe42-9d09-4740-a362-fc26f98e55ea");
+        keyStorePassword.setUuid("d975fe42-9d09-4740-a362-fc26f98e55ea");
         keyStorePassword.setLabel(ATTRIBUTE_KEYSTORE_PASSWORD_LABEL);
         keyStorePassword.setName(ATTRIBUTE_KEYSTORE_PASSWORD);
         keyStorePassword.setType(BaseAttributeDefinitionTypes.SECRET);
@@ -120,7 +120,7 @@ public class AttributeServiceImpl implements AttributeService {
         attrs.add(keyStorePassword);
 
         AttributeDefinition trustStoreType = new AttributeDefinition();
-        trustStoreType.setId("c4454807-805a-44e2-81d1-94b56e993786");
+        trustStoreType.setUuid("c4454807-805a-44e2-81d1-94b56e993786");
         trustStoreType.setName(ATTRIBUTE_TRUSTSTORE_TYPE);
         trustStoreType.setLabel(ATTRIBUTE_TRUSTSTORE_TYPE_LABEL);
         trustStoreType.setType(BaseAttributeDefinitionTypes.LIST);
@@ -131,7 +131,7 @@ public class AttributeServiceImpl implements AttributeService {
         attrs.add(trustStoreType);
 
         AttributeDefinition trustStore = new AttributeDefinition();
-        trustStore.setId("6a245220-eaf4-44cb-9079-2228ad9264f5");
+        trustStore.setUuid("6a245220-eaf4-44cb-9079-2228ad9264f5");
         trustStore.setName(ATTRIBUTE_TRUSTSTORE);
         trustStore.setLabel(ATTRIBUTE_TRUSTSTORE_LABEL);
         trustStore.setType(BaseAttributeDefinitionTypes.FILE);
@@ -141,7 +141,7 @@ public class AttributeServiceImpl implements AttributeService {
         attrs.add(trustStore);
 
         AttributeDefinition trustStorePassword = new AttributeDefinition();
-        trustStorePassword.setId("85a874da-1413-4770-9830-4188a37c95ee");
+        trustStorePassword.setUuid("85a874da-1413-4770-9830-4188a37c95ee");
         trustStorePassword.setName(ATTRIBUTE_TRUSTSTORE_PASSWORD);
         trustStorePassword.setLabel(ATTRIBUTE_KEYSTORE_PASSWORD_LABEL);
         trustStorePassword.setType(BaseAttributeDefinitionTypes.SECRET);
@@ -153,7 +153,7 @@ public class AttributeServiceImpl implements AttributeService {
         return attrs;
     }
 
-    private boolean validateSofKeyStoreAttributes(List<AttributeDefinition> attributes) {
+    private boolean validateSofKeyStoreAttributes(List<RequestAttributeDto> attributes) {
         AttributeDefinitionUtils.validateAttributes(getSofKeyStoreAttributes(), attributes);
 
         try {
@@ -195,7 +195,7 @@ public class AttributeServiceImpl implements AttributeService {
         List<AttributeDefinition> attrs = new ArrayList<>();
 
         AttributeDefinition username = new AttributeDefinition();
-        username.setId("fe2d6d35-fb3d-4ea0-9f0b-7e39be93beeb");
+        username.setUuid("fe2d6d35-fb3d-4ea0-9f0b-7e39be93beeb");
         username.setName(ATTRIBUTE_USERNAME);
         username.setLabel(ATTRIBUTE_USERNAME_LABEL);
         username.setType(BaseAttributeDefinitionTypes.STRING);
@@ -205,7 +205,7 @@ public class AttributeServiceImpl implements AttributeService {
         attrs.add(username);
 
         AttributeDefinition password = new AttributeDefinition();
-        password.setId("04506d45-c865-4ddc-b6fc-117ee5d5c8e7");
+        password.setUuid("04506d45-c865-4ddc-b6fc-117ee5d5c8e7");
         password.setName(ATTRIBUTE_PASSWORD);
         password.setLabel(ATTRIBUTE_PASSWORD_LABEL);
         password.setType(BaseAttributeDefinitionTypes.SECRET);
@@ -217,7 +217,7 @@ public class AttributeServiceImpl implements AttributeService {
         return attrs;
     }
 
-    private boolean validateBasicAttributes(List<AttributeDefinition> attributes) {
+    private boolean validateBasicAttributes(List<RequestAttributeDto> attributes) {
         AttributeDefinitionUtils.validateAttributes(getBasicAttributes(), attributes);
         return true;
     }
@@ -226,7 +226,7 @@ public class AttributeServiceImpl implements AttributeService {
         List<AttributeDefinition> attrs = new ArrayList<>();
 
         AttributeDefinition apiKey = new AttributeDefinition();
-        apiKey.setId("aac5c2d5-5dc3-4ddb-9dfa-3d76b99135f8");
+        apiKey.setUuid("aac5c2d5-5dc3-4ddb-9dfa-3d76b99135f8");
         apiKey.setName(ATTRIBUTE_APIKEY);
         apiKey.setLabel(ATTRIBUTE_APIKEY_LABEL);
         apiKey.setType(BaseAttributeDefinitionTypes.SECRET);
@@ -238,7 +238,7 @@ public class AttributeServiceImpl implements AttributeService {
         return attrs;
     }
 
-    private boolean validateApiKeyAttributes(List<AttributeDefinition> attributes) {
+    private boolean validateApiKeyAttributes(List<RequestAttributeDto> attributes) {
         AttributeDefinitionUtils.validateAttributes(getApiKeyAttributes(), attributes);
         return true;
     }

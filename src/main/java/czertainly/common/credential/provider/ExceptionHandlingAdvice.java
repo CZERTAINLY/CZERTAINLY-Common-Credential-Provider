@@ -1,8 +1,7 @@
 package czertainly.common.credential.provider;
 
 import com.czertainly.api.exception.*;
-import com.czertainly.api.model.ErrorMessageDto;
-
+import com.czertainly.api.model.common.ErrorMessageDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

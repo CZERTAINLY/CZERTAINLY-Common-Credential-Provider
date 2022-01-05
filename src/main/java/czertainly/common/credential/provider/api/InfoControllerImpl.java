@@ -1,19 +1,17 @@
 package czertainly.common.credential.provider.api;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.czertainly.api.interfaces.InfoController;
-import com.czertainly.api.model.connector.FunctionGroupCode;
+import com.czertainly.api.interfaces.connector.InfoController;
+import com.czertainly.api.model.client.connector.InfoResponse;
+import com.czertainly.api.model.core.connector.FunctionGroupCode;
+import czertainly.common.credential.provider.EndpointsListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.czertainly.api.model.connector.InfoResponse;
-import czertainly.common.credential.provider.EndpointsListener;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1")

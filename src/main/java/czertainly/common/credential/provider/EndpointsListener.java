@@ -1,7 +1,7 @@
 package czertainly.common.credential.provider;
 
-import com.czertainly.api.model.connector.EndpointDto;
-import com.czertainly.api.model.connector.FunctionGroupCode;
+import com.czertainly.api.model.core.connector.EndpointDto;
+import com.czertainly.api.model.core.connector.FunctionGroupCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
