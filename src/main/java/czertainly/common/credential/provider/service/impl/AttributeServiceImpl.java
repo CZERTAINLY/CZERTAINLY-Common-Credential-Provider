@@ -36,7 +36,7 @@ public class AttributeServiceImpl implements AttributeService {
     public static final String ATTRIBUTE_KEYSTORE_TYPE_LABEL = "Key Store Type";
     public static final String ATTRIBUTE_KEYSTORE_LABEL = "Key Store";
     public static final String ATTRIBUTE_KEYSTORE_PASSWORD_LABEL = "Key Store Password";
-    public static final String ATTRIBUTE_TRUSTSTORE_TYPE_LABEL = "Trust Store Password";
+    public static final String ATTRIBUTE_TRUSTSTORE_TYPE_LABEL = "Trust Store Type";
     public static final String ATTRIBUTE_TRUSTSTORE_LABEL = "Trust Store";
     public static final String ATTRIBUTE_TRUSTSTORE_PASSWORD_LABEL = "Trust Store Password";
 
@@ -143,7 +143,7 @@ public class AttributeServiceImpl implements AttributeService {
         AttributeDefinition trustStorePassword = new AttributeDefinition();
         trustStorePassword.setUuid("85a874da-1413-4770-9830-4188a37c95ee");
         trustStorePassword.setName(ATTRIBUTE_TRUSTSTORE_PASSWORD);
-        trustStorePassword.setLabel(ATTRIBUTE_KEYSTORE_PASSWORD_LABEL);
+        trustStorePassword.setLabel(ATTRIBUTE_TRUSTSTORE_PASSWORD_LABEL);
         trustStorePassword.setType(BaseAttributeDefinitionTypes.SECRET);
         trustStorePassword.setRequired(false);
         trustStorePassword.setReadOnly(false);
