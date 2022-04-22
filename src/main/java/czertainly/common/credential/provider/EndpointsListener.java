@@ -31,12 +31,12 @@ public class EndpointsListener {
                 .filter(e -> (e.getKey().getMethodsCondition().getMethods() != null && !e.getKey().getMethodsCondition().getMethods().isEmpty()))
                 .forEach(e -> {
                     LOGGER.info("{} {} {}", e.getKey().getMethodsCondition().getMethods(),
-                            e.getKey().getPatternsCondition().getPatterns(),
+                            e.getKey().getPatternValues(),
                             e.getValue().getMethod().getName());
 
                     EndpointDto endpoint = new EndpointDto();
                     endpoint.setMethod(e.getKey().getMethodsCondition().getMethods().iterator().next().name());
-                    endpoint.setContext(e.getKey().getPatternsCondition().getPatterns().iterator().next());
+                    endpoint.setContext(e.getKey().getPatternValues().iterator().next());
                     endpoint.setName(e.getValue().getMethod().getName());
                     endpoints.add(endpoint);
                 });
