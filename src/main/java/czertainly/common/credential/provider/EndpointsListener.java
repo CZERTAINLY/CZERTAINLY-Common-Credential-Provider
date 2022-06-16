@@ -28,7 +28,7 @@ public class EndpointsListener {
         applicationContext.getBean(RequestMappingHandlerMapping.class)
                 .getHandlerMethods()
                 .entrySet().stream()
-                .filter(e -> (e.getKey().getMethodsCondition().getMethods() != null && !e.getKey().getMethodsCondition().getMethods().isEmpty()))
+                .filter(e -> !e.getKey().getMethodsCondition().getMethods().isEmpty())
                 .forEach(e -> {
                     LOGGER.info("{} {} {}", e.getKey().getMethodsCondition().getMethods(),
                             e.getKey().getPatternValues(),
@@ -40,10 +40,6 @@ public class EndpointsListener {
                     endpoint.setName(e.getValue().getMethod().getName());
                     endpoints.add(endpoint);
                 });
-    }
-
-    public List<EndpointDto> getEndpoints() {
-        return this.endpoints;
     }
 
     public List<EndpointDto> getEndpoints(FunctionGroupCode functionGroup) {

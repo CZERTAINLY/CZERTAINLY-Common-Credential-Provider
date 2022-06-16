@@ -17,6 +17,6 @@ public class KeyStoreTest {
         KeyStore keyStore = KeyStore.getInstance("JKS");
         keyStore.load(is, "123456".toCharArray());
 
-        keyStore.aliases().asIterator().forEachRemaining(a -> System.out.println(a));
+        keyStore.aliases().asIterator().forEachRemaining(System.out::println);
     }
 }
