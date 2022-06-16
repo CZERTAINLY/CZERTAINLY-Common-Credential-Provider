@@ -19,10 +19,9 @@ public class ExceptionHandlingAdvice {
     private static final Logger LOG = LoggerFactory.getLogger(ExceptionHandlingAdvice.class);
 
     /**
-     * Handler for {@link NotFoundException}.
+     * Handler for {@link NotFoundException}
      *
-     * @param ex Caught {@link NotFoundException}.
-     * @return
+     * @param ex Caught {@link NotFoundException}
      */
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -32,9 +31,7 @@ public class ExceptionHandlingAdvice {
     }
 
     /**
-     * Handler for {@link AlreadyExistException}.
-     *
-     * @return
+     * Handler for {@link AlreadyExistException}
      */
     @ExceptionHandler(AlreadyExistException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -44,9 +41,7 @@ public class ExceptionHandlingAdvice {
     }
 
     /**
-     * Handler for {@link NotDeletableException}.
-     *
-     * @return
+     * Handler for {@link NotDeletableException}
      */
     @ExceptionHandler(NotDeletableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -56,9 +51,7 @@ public class ExceptionHandlingAdvice {
     }
 
     /**
-     * Handler for {@link ValidationException}.
-     *
-     * @return
+     * Handler for {@link ValidationException}
      */
     @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -71,9 +64,7 @@ public class ExceptionHandlingAdvice {
     }
 
     /**
-     * Handler for {@link HttpMessageNotReadableException}.
-     *
-     * @return
+     * Handler for {@link HttpMessageNotReadableException}
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -93,9 +84,7 @@ public class ExceptionHandlingAdvice {
 //    }
 
     /**
-     * Handler for {@link Exception}.
-     *
-     * @return
+     * Handler for {@link Exception}
      */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

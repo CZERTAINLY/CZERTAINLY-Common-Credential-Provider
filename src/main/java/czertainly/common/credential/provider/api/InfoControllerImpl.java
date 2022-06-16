@@ -19,9 +19,13 @@ public class InfoControllerImpl implements InfoController {
     private static final Logger logger = LoggerFactory.getLogger(InfoControllerImpl.class);
 
     @Autowired
+    public void setEndpointsListener(EndpointsListener endpointsListener) {
+        this.endpointsListener = endpointsListener;
+    }
+
     private EndpointsListener endpointsListener;
 
-    private static List<String> KINDS = List.of("SoftKeyStore", "Basic", "ApiKey");
+    private static final List<String> KINDS = List.of("SoftKeyStore", "Basic", "ApiKey");
 
     @Override
     public List<InfoResponse> listSupportedFunctions() {

@@ -2,8 +2,8 @@ package czertainly.common.credential.provider.api;
 
 import com.czertainly.api.exception.ValidationException;
 import com.czertainly.api.interfaces.connector.AttributesController;
-import com.czertainly.api.model.common.AttributeDefinition;
-import com.czertainly.api.model.common.RequestAttributeDto;
+import com.czertainly.api.model.common.attribute.AttributeDefinition;
+import com.czertainly.api.model.common.attribute.RequestAttributeDto;
 import czertainly.common.credential.provider.service.AttributeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +18,10 @@ import java.util.List;
 public class AttributesControllerImpl implements AttributesController {
 
     @Autowired
+    public void setAttributeService(AttributeService attributeService) {
+        this.attributeService=attributeService;
+    }
+
     private AttributeService attributeService;
 
     @Override

@@ -25,16 +25,8 @@ public class LoggingAdvice {
     public void restController() {
     }
 
-    @Pointcut("execution(* *.*(..))")
-    protected void allMethod() {
-    }
-
     @Pointcut("execution(public * *(..))")
     protected void loggingPublicOperation() {
-    }
-
-    @Pointcut("execution(* *.*(..))")
-    protected void loggingAllOperation() {
     }
 
     @Pointcut("within(czertainly.common.credential.provider.api..*)")
