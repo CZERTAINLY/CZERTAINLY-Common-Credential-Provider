@@ -215,7 +215,7 @@ public class AttributeServiceImpl implements AttributeService {
 
             if((trustStoreBase64 != null && !trustStoreBase64.isBlank()) || (trustStoreType != null && !trustStoreType.isBlank()) || (trustStorePassword != null && !trustStorePassword.isBlank())){
                 if(StringUtils.isAnyBlank(trustStoreBase64, trustStoreType, trustStorePassword)){
-                    throw new ValidationException(ValidationError.create("All attributes required for truststore is not provided"));
+                    throw new ValidationException(ValidationError.create("All attributes required for truststore must be provided"));
                 }
             }
 
