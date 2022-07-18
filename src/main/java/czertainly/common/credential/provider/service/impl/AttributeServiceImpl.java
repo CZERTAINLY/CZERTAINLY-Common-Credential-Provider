@@ -213,6 +213,12 @@ public class AttributeServiceImpl implements AttributeService {
 
             String trustStorePassword = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_TRUSTSTORE_PASSWORD, attributes, BaseAttributeContent.class);
 
+            if((trustStoreBase64 != null && !trustStoreBase64.isBlank()) || (trustStoreType != null && !trustStoreType.isBlank()) || (trustStorePassword != null && !trustStorePassword.isBlank())){
+                if(StringUtils.isAnyBlank(trustStoreBase64, trustStoreType, trustStorePassword)){
+                    throw new ValidationException(ValidationError.create("All attributes required for truststore must be provided"));
+                }
+            }
+
             if (!StringUtils.isAnyBlank(trustStoreBase64, trustStoreType, trustStorePassword)) {
                 byte[] trustStoreBytes = Base64.getDecoder().decode(trustStoreBase64);
                 KeyStore trustStore = KeyStore.getInstance(trustStoreType);
