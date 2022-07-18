@@ -7,6 +7,7 @@ import com.czertainly.api.model.common.attribute.AttributeDefinition;
 import com.czertainly.api.model.common.attribute.AttributeType;
 import com.czertainly.api.model.common.attribute.RequestAttributeDto;
 import com.czertainly.api.model.common.attribute.content.BaseAttributeContent;
+import com.czertainly.api.model.common.attribute.content.FileAttributeContent;
 import com.czertainly.core.util.AttributeDefinitionUtils;
 import czertainly.common.credential.provider.service.AttributeService;
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +33,7 @@ public class AttributeServiceImpl implements AttributeService {
     public static final String ATTRIBUTE_TRUSTSTORE_TYPE = "trustStoreType";
     public static final String ATTRIBUTE_TRUSTSTORE = "trustStore";
     public static final String ATTRIBUTE_TRUSTSTORE_PASSWORD = "trustStorePassword";
-    
+
     // Soft key store attribute labels
     public static final String ATTRIBUTE_KEYSTORE_TYPE_LABEL = "Key Store Type";
     public static final String ATTRIBUTE_KEYSTORE_LABEL = "Key Store";
@@ -44,7 +45,7 @@ public class AttributeServiceImpl implements AttributeService {
     // Basic auth attribute names
     public static final String ATTRIBUTE_USERNAME = "username";
     public static final String ATTRIBUTE_PASSWORD = "password";
-    
+
     // Basic auth attribute names
     public static final String ATTRIBUTE_USERNAME_LABEL = "Username";
     public static final String ATTRIBUTE_PASSWORD_LABEL = "Password";
@@ -189,15 +190,12 @@ public class AttributeServiceImpl implements AttributeService {
         AttributeDefinitionUtils.validateAttributes(getSofKeyStoreAttributes(), attributes);
 
         try {
-            BaseAttributeContent<String> keyStoreContent = AttributeDefinitionUtils.getAttributeContent(ATTRIBUTE_KEYSTORE, attributes, BaseAttributeContent.class);
-            String keyStoreBase64 = keyStoreContent.getValue();
+            String keyStoreBase64 = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_KEYSTORE, attributes, FileAttributeContent.class);
             byte[] keyStoreBytes = Base64.getDecoder().decode(keyStoreBase64);
 
-            BaseAttributeContent<String> keyStoreTypeContent = AttributeDefinitionUtils.getAttributeContent(ATTRIBUTE_KEYSTORE_TYPE, attributes, BaseAttributeContent.class);
-            String keyStoreType = keyStoreTypeContent.getValue();
+            String keyStoreType = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_KEYSTORE_TYPE, attributes, BaseAttributeContent.class);
 
-            BaseAttributeContent<String> keyStorePasswordContent = AttributeDefinitionUtils.getAttributeContent(ATTRIBUTE_KEYSTORE_PASSWORD, attributes, BaseAttributeContent.class);
-            String keyStorePassword = keyStorePasswordContent.getValue();
+            String keyStorePassword = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_KEYSTORE_PASSWORD, attributes, BaseAttributeContent.class);
 
             KeyStore keyStore = KeyStore.getInstance(keyStoreType);
             keyStore.load(new ByteArrayInputStream(keyStoreBytes), keyStorePassword.toCharArray());
@@ -209,22 +207,17 @@ public class AttributeServiceImpl implements AttributeService {
         }
 
         try {
-            BaseAttributeContent<String> trustStoreContent = AttributeDefinitionUtils.getAttributeContent(ATTRIBUTE_TRUSTSTORE, attributes, BaseAttributeContent.class);
-            BaseAttributeContent<String> trustStoreTypeContent = AttributeDefinitionUtils.getAttributeContent(ATTRIBUTE_TRUSTSTORE_TYPE, attributes, BaseAttributeContent.class);
-            BaseAttributeContent<String> trustStorePasswordContent = AttributeDefinitionUtils.getAttributeContent(ATTRIBUTE_TRUSTSTORE_PASSWORD, attributes, BaseAttributeContent.class);
+            String trustStoreBase64 = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_TRUSTSTORE, attributes, FileAttributeContent.class);
 
-            if ( trustStoreContent != null || trustStoreTypeContent != null || trustStorePasswordContent != null ) {
-                throw new ValidationException(ValidationError.create("All of the Attributes for truststore must be provided."));
-            } else if (trustStoreContent != null && trustStoreTypeContent != null && trustStorePasswordContent != null) {
-                String trustStoreBase64 = trustStoreContent.getValue();
-                String trustStoreType = trustStoreTypeContent.getValue();
-                String trustStorePassword = trustStorePasswordContent.getValue();
-                if (!StringUtils.isAnyBlank(trustStoreBase64, trustStoreType, trustStorePassword)) {
-                    byte[] trustStoreBytes = Base64.getDecoder().decode(trustStoreBase64);
-                    KeyStore trustStore = KeyStore.getInstance(trustStoreType);
-                    trustStore.load(new ByteArrayInputStream(trustStoreBytes), trustStorePassword.toCharArray());
-                    logger.info("Trust store attribute successfully validated. Given trust store contains: {}", trustStore.aliases());
-                }
+            String trustStoreType = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_TRUSTSTORE_TYPE, attributes, BaseAttributeContent.class);
+
+            String trustStorePassword = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_TRUSTSTORE_PASSWORD, attributes, BaseAttributeContent.class);
+
+            if (!StringUtils.isAnyBlank(trustStoreBase64, trustStoreType, trustStorePassword)) {
+                byte[] trustStoreBytes = Base64.getDecoder().decode(trustStoreBase64);
+                KeyStore trustStore = KeyStore.getInstance(trustStoreType);
+                trustStore.load(new ByteArrayInputStream(trustStoreBytes), trustStorePassword.toCharArray());
+                logger.info("Trust store attribute successfully validated. Given trust store contains: {}", trustStore.aliases());
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
