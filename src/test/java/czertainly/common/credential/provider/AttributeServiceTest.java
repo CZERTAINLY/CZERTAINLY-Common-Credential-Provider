@@ -1,8 +1,9 @@
 package czertainly.common.credential.provider;
 
 import com.czertainly.api.exception.ValidationException;
-import com.czertainly.api.model.common.AttributeDefinition;
-import com.czertainly.api.model.common.RequestAttributeDto;
+import com.czertainly.api.model.common.attribute.AttributeDefinition;
+import com.czertainly.api.model.common.attribute.RequestAttributeDto;
+import com.czertainly.api.model.common.attribute.content.BaseAttributeContent;
 import czertainly.common.credential.provider.service.AttributeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,22 +26,22 @@ public class AttributeServiceTest {
     private void setup(){
         RequestAttributeDto username = new RequestAttributeDto();
         username.setUuid("1b6c48ad-c1c7-4c82-91ef-3e61bc9f52ac");
-        username.setValue("admin");
+        username.setContent(new BaseAttributeContent<>("admin"));
         username.setName("username");
 
         RequestAttributeDto password = new RequestAttributeDto();
         password.setUuid("9379ca2c-aa51-42c8-8afd-2a2d16c99c56");
-        password.setValue("admin");
+        password.setContent(new BaseAttributeContent<>("admin"));
         password.setName("password");
 
         attributesBasic = Arrays.asList(username, password);
 
         RequestAttributeDto apiKey = new RequestAttributeDto();
         apiKey.setUuid("9379ca2c-aa51-42c8-8afd-2a2d16c99c56");
-        apiKey.setValue("ASufvjhFUtydFDFA");
+        apiKey.setContent(new BaseAttributeContent<>("ASufvjhFUtydFDFA"));
         apiKey.setName("apiKey");
 
-        attributesApiKey = Arrays.asList(apiKey);
+        attributesApiKey = List.of(apiKey);
     }
 
     @Test
@@ -63,12 +64,12 @@ public class AttributeServiceTest {
 
     @Test
     public void testValidateAttributesBasic() {
-        Assertions.assertEquals(true, attributeService.validateAttributes("Basic", attributesBasic));
+        Assertions.assertTrue(attributeService.validateAttributes("Basic", attributesBasic));
     }
 
     @Test
     public void testValidateAttributesApiKey() {
-        Assertions.assertEquals(true, attributeService.validateAttributes("ApiKey", attributesApiKey));
+        Assertions.assertTrue(attributeService.validateAttributes("ApiKey", attributesApiKey));
     }
 
     @Test
