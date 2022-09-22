@@ -1,6 +1,6 @@
 # CZERTAINLY Common Credential Provider
 
-> This repository is part of the commercial open-source project CZERTAINLY, but the connector is available under subscription. 
+> This repository is part of the commercial open-source project CZERTAINLY. 
 > You can find more information about the project at [CZERTAINLY](https://github.com/3KeyCompany/CZERTAINLY) repository, including the contribution guide.
 
 Common Credential Provider is the implementation of basic `Credential` `Kinds` and validation interfaces. This `Connector` provides options to add the `Credential` to the `Core` which can be used within other objects in the platform for authentication and authorization purposes.
