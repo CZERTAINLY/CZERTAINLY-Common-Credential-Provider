@@ -1,12 +1,13 @@
 package czertainly.common.credential.provider.service;
 
-import com.czertainly.api.model.common.attribute.AttributeDefinition;
-import com.czertainly.api.model.common.attribute.RequestAttributeDto;
+
+import com.czertainly.api.model.client.attribute.RequestAttributeDto;
+import com.czertainly.api.model.common.attribute.BaseAttribute;
 
 import java.util.List;
 
 public interface AttributeService {
-	List<AttributeDefinition> getAttributes(String kind);
+	List<BaseAttribute> getAttributes(String kind);
 	
 	boolean validateAttributes(String kind, List<RequestAttributeDto> attributes);
 }

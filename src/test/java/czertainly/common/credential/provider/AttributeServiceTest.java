@@ -1,9 +1,11 @@
 package czertainly.common.credential.provider;
 
 import com.czertainly.api.exception.ValidationException;
-import com.czertainly.api.model.common.attribute.AttributeDefinition;
-import com.czertainly.api.model.common.attribute.RequestAttributeDto;
-import com.czertainly.api.model.common.attribute.content.BaseAttributeContent;
+import com.czertainly.api.model.client.attribute.RequestAttributeDto;
+import com.czertainly.api.model.common.attribute.BaseAttribute;
+import com.czertainly.api.model.common.attribute.content.SecretAttributeContent;
+import com.czertainly.api.model.common.attribute.content.StringAttributeContent;
+import com.czertainly.api.model.common.attribute.content.data.SecretAttributeContentData;
 import czertainly.common.credential.provider.service.AttributeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,19 +28,19 @@ public class AttributeServiceTest {
     private void setup(){
         RequestAttributeDto username = new RequestAttributeDto();
         username.setUuid("1b6c48ad-c1c7-4c82-91ef-3e61bc9f52ac");
-        username.setContent(new BaseAttributeContent<>("admin"));
+        username.setContent(List.of(new StringAttributeContent("admin")));
         username.setName("username");
 
         RequestAttributeDto password = new RequestAttributeDto();
         password.setUuid("9379ca2c-aa51-42c8-8afd-2a2d16c99c56");
-        password.setContent(new BaseAttributeContent<>("admin"));
+        password.setContent(List.of(new SecretAttributeContent("", new SecretAttributeContentData("admin"))));
         password.setName("password");
 
         attributesBasic = Arrays.asList(username, password);
 
         RequestAttributeDto apiKey = new RequestAttributeDto();
         apiKey.setUuid("9379ca2c-aa51-42c8-8afd-2a2d16c99c56");
-        apiKey.setContent(new BaseAttributeContent<>("ASufvjhFUtydFDFA"));
+        apiKey.setContent(List.of(new SecretAttributeContent("", new SecretAttributeContentData("ASufvjhFUtydFDFA"))));
         apiKey.setName("apiKey");
 
         attributesApiKey = List.of(apiKey);
@@ -46,19 +48,19 @@ public class AttributeServiceTest {
 
     @Test
     public void testSoftkeyAttributeResponse() {
-        List<AttributeDefinition> attributes = attributeService.getAttributes("SoftKeyStore");
+        List<BaseAttribute> attributes = attributeService.getAttributes("SoftKeyStore");
         Assertions.assertEquals(6, attributes.size());
     }
 
     @Test
     public void testBasicAttributeResponse() {
-        List<AttributeDefinition> attributes = attributeService.getAttributes("Basic");
+        List<BaseAttribute> attributes = attributeService.getAttributes("Basic");
         Assertions.assertEquals(2, attributes.size());
     }
 
     @Test
     public void testApiKeyAttributeResponse() {
-        List<AttributeDefinition> attributes = attributeService.getAttributes("ApiKey");
+        List<BaseAttribute> attributes = attributeService.getAttributes("ApiKey");
         Assertions.assertEquals(1, attributes.size());
     }
 
