@@ -3,7 +3,7 @@ package czertainly.common.credential.provider.api;
 import com.czertainly.api.exception.ValidationException;
 import com.czertainly.api.interfaces.connector.AttributesController;
 import com.czertainly.api.model.client.attribute.RequestAttributeDto;
-import com.czertainly.api.model.common.attribute.BaseAttribute;
+import com.czertainly.api.model.common.attribute.v2.BaseAttribute;
 import czertainly.common.credential.provider.service.AttributeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

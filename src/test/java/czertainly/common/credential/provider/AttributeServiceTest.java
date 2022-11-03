@@ -2,10 +2,10 @@ package czertainly.common.credential.provider;
 
 import com.czertainly.api.exception.ValidationException;
 import com.czertainly.api.model.client.attribute.RequestAttributeDto;
-import com.czertainly.api.model.common.attribute.BaseAttribute;
-import com.czertainly.api.model.common.attribute.content.SecretAttributeContent;
-import com.czertainly.api.model.common.attribute.content.StringAttributeContent;
-import com.czertainly.api.model.common.attribute.content.data.SecretAttributeContentData;
+import com.czertainly.api.model.common.attribute.v2.BaseAttribute;
+import com.czertainly.api.model.common.attribute.v2.content.SecretAttributeContent;
+import com.czertainly.api.model.common.attribute.v2.content.StringAttributeContent;
+import com.czertainly.api.model.common.attribute.v2.content.data.SecretAttributeContentData;
 import czertainly.common.credential.provider.service.AttributeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
