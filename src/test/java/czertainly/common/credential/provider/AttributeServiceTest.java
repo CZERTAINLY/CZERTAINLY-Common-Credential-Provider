@@ -25,7 +25,7 @@ public class AttributeServiceTest {
     private List<RequestAttributeDto> attributesApiKey;
 
     @BeforeEach
-    private void setup(){
+    public void setup(){
         RequestAttributeDto username = new RequestAttributeDto();
         username.setUuid("1b6c48ad-c1c7-4c82-91ef-3e61bc9f52ac");
         username.setContent(List.of(new StringAttributeContent("admin")));
