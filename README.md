@@ -29,6 +29,7 @@ For more information regarding the `Credentials`, please refer to the [CZERTAINL
 
 Common Credential Provider is provided as a Docker container. Use the `docker pull harbor.3key.company/czertainly/czertainly-common-credential-provider:tagname` to pull the required image from the repository. It can be configured using the following environment variables:
 
-| Variable | Description                       | Required | Default value |
-|----------|-----------------------------------|----------|---------------|
-| `PORT`   | Port where the service is exposed | No       | 8081          |
+| Variable    | Description                                              | Required                                      | Default value |
+|-------------|----------------------------------------------------------|-----------------------------------------------|---------------|
+| `PORT`      | Port where the service is exposed                        | ![](https://img.shields.io/badge/-NO-red.svg) | `8081`        |
+| `JAVA_OPTS` | Customize Java system properties for running application | ![](https://img.shields.io/badge/-NO-red.svg) | `N/A`         |

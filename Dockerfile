@@ -8,8 +8,16 @@ ARG SERVER_PASSWORD
 RUN mvn -f /home/app/pom.xml clean package
 
 # Package stage
-#FROM openjdk:11-jdk-slim
 FROM eclipse-temurin:17-jre-alpine
-#ARG JAR_FILE=target/*.jar
-COPY --from=build /home/app/target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+
+# add non root user czertainly
+RUN addgroup --system --gid 10001 czertainly && adduser --system --home /opt/czertainly --uid 10001 --ingroup czertainly czertainly
+
+COPY --from=build /home/app/docker /
+COPY --from=build /home/app/target/*.jar /opt/czertainly/app.jar
+
+WORKDIR /opt/czertainly
+
+USER 10001
+
+ENTRYPOINT ["/opt/czertainly/entry.sh"]
