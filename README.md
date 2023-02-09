@@ -11,7 +11,7 @@ the platform authentication and authorization process.
 Common Credential Provider implement the following credential `Kinds`:
 - Basic (Username and Password)
 - API Key
-- Software KeyStore (Softkeys, i.e., certificate related authentication)
+- Software KeyStore (i.e., certificate related authentication)
 
 ## Short Process Description
 
@@ -27,7 +27,7 @@ For more information regarding the `Credentials`, please refer to the [CZERTAINL
 
 ## Docker container
 
-Common Credential Provider is provided as a Docker container. Use the `docker pull harbor.3key.company/czertainly/czertainly-common-credential-provider:tagname` to pull the required image from the repository. It can be configured using the following environment variables:
+Common Credential Provider is provided as a Docker container. Use the `3keycompany/czertainly-common-credential-provider:tagname` to pull the required image from the repository. It can be configured using the following environment variables:
 
 | Variable    | Description                                              | Required                                      | Default value |
 |-------------|----------------------------------------------------------|-----------------------------------------------|---------------|
