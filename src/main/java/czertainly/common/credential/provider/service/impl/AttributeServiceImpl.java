@@ -3,11 +3,16 @@ package czertainly.common.credential.provider.service.impl;
 import com.czertainly.api.exception.ValidationError;
 import com.czertainly.api.exception.ValidationException;
 import com.czertainly.api.interfaces.connector.AttributesController;
-import com.czertainly.api.model.common.attribute.AttributeDefinition;
-import com.czertainly.api.model.common.attribute.AttributeType;
-import com.czertainly.api.model.common.attribute.RequestAttributeDto;
-import com.czertainly.api.model.common.attribute.content.BaseAttributeContent;
-import com.czertainly.api.model.common.attribute.content.FileAttributeContent;
+import com.czertainly.api.model.client.attribute.RequestAttributeDto;
+import com.czertainly.api.model.common.attribute.v2.AttributeType;
+import com.czertainly.api.model.common.attribute.v2.BaseAttribute;
+import com.czertainly.api.model.common.attribute.v2.DataAttribute;
+import com.czertainly.api.model.common.attribute.v2.content.AttributeContentType;
+import com.czertainly.api.model.common.attribute.v2.content.BaseAttributeContent;
+import com.czertainly.api.model.common.attribute.v2.content.FileAttributeContent;
+import com.czertainly.api.model.common.attribute.v2.content.SecretAttributeContent;
+import com.czertainly.api.model.common.attribute.v2.content.StringAttributeContent;
+import com.czertainly.api.model.common.attribute.v2.properties.DataAttributeProperties;
 import com.czertainly.core.util.AttributeDefinitionUtils;
 import czertainly.common.credential.provider.service.AttributeService;
 import org.apache.commons.lang3.StringUtils;
@@ -58,7 +63,7 @@ public class AttributeServiceImpl implements AttributeService {
     private ArrayList<String> supportedKeyStoreTypes;
 
     @Override
-    public List<AttributeDefinition> getAttributes(String kind) {
+    public List<BaseAttribute> getAttributes(String kind) {
         // TODO: kinds should be defined as constants, all Pascal Case
         switch (kind) {
             case "SoftKeyStore":
@@ -87,100 +92,119 @@ public class AttributeServiceImpl implements AttributeService {
         }
     }
 
-    private List<AttributeDefinition> getSofKeyStoreAttributes() {
-        List<AttributeDefinition> attrs = new ArrayList<>();
+    private List<BaseAttribute> getSofKeyStoreAttributes() {
+        List<BaseAttribute> attrs = new ArrayList<>();
 
-        List<BaseAttributeContent<String>> keyStoreTypes = new ArrayList<>();
+        List<BaseAttributeContent> keyStoreTypes = new ArrayList<>();
         for (String supportedKeyStoreType : supportedKeyStoreTypes) {
-            BaseAttributeContent<String> keyStoreType = new BaseAttributeContent<>();
-            keyStoreType.setValue(supportedKeyStoreType);
+            StringAttributeContent keyStoreType = new StringAttributeContent();
+            keyStoreType.setReference(supportedKeyStoreType);
+            keyStoreType.setData(supportedKeyStoreType);
             keyStoreTypes.add(keyStoreType);
         }
 
-        AttributeDefinition keyStoreType = new AttributeDefinition();
+        DataAttribute keyStoreType = new DataAttribute();
         keyStoreType.setUuid("e334e055-900e-43f1-aedc-54e837028de0");
         keyStoreType.setName(ATTRIBUTE_KEYSTORE_TYPE);
-        keyStoreType.setLabel(ATTRIBUTE_KEYSTORE_TYPE_LABEL);
+        DataAttributeProperties keyStoreTypeProperties = new DataAttributeProperties();
         keyStoreType.setDescription("Key store type");
-        keyStoreType.setType(AttributeType.STRING);
-        keyStoreType.setRequired(true);
-        keyStoreType.setReadOnly(false);
-        keyStoreType.setVisible(true);
-        keyStoreType.setList(true);
-        keyStoreType.setMultiSelect(false);
+        keyStoreType.setType(AttributeType.DATA);
+        keyStoreType.setContentType(AttributeContentType.STRING);
+        keyStoreTypeProperties.setLabel(ATTRIBUTE_KEYSTORE_TYPE_LABEL);
+        keyStoreTypeProperties.setRequired(true);
+        keyStoreTypeProperties.setReadOnly(false);
+        keyStoreTypeProperties.setVisible(true);
+        keyStoreTypeProperties.setList(true);
+        keyStoreTypeProperties.setMultiSelect(false);
         keyStoreType.setContent(keyStoreTypes);
-        keyStoreType.setGroup("Key Store");
+        keyStoreTypeProperties.setGroup("Key Store");
+        keyStoreType.setProperties(keyStoreTypeProperties);
         attrs.add(keyStoreType);
 
-        AttributeDefinition keyStore = new AttributeDefinition();
+        DataAttribute keyStore = new DataAttribute();
         keyStore.setUuid("6df7ace9-c501-4d58-953c-f8d53d4fb378");
         keyStore.setName(ATTRIBUTE_KEYSTORE);
-        keyStore.setLabel(ATTRIBUTE_KEYSTORE_LABEL);
         keyStore.setDescription("Key store file");
-        keyStore.setType(AttributeType.FILE);
-        keyStore.setRequired(true);
-        keyStore.setReadOnly(false);
-        keyStore.setVisible(true);
-        keyStore.setList(false);
-        keyStore.setMultiSelect(false);
-        keyStore.setGroup("Key Store");
+        keyStore.setType(AttributeType.DATA);
+        keyStore.setContentType(AttributeContentType.FILE);
+        DataAttributeProperties keyStoreProperties = new DataAttributeProperties();
+        keyStoreProperties.setLabel(ATTRIBUTE_KEYSTORE_LABEL);
+        keyStoreProperties.setRequired(true);
+        keyStoreProperties.setReadOnly(false);
+        keyStoreProperties.setVisible(true);
+        keyStoreProperties.setList(false);
+        keyStoreProperties.setMultiSelect(false);
+        keyStoreProperties.setGroup("Key Store");
+        keyStore.setProperties(keyStoreProperties);
         attrs.add(keyStore);
 
-        AttributeDefinition keyStorePassword = new AttributeDefinition();
+        DataAttribute keyStorePassword = new DataAttribute();
         keyStorePassword.setUuid("d975fe42-9d09-4740-a362-fc26f98e55ea");
-        keyStorePassword.setLabel(ATTRIBUTE_KEYSTORE_PASSWORD_LABEL);
         keyStorePassword.setName(ATTRIBUTE_KEYSTORE_PASSWORD);
         keyStorePassword.setDescription("Key store password");
-        keyStorePassword.setType(AttributeType.SECRET);
-        keyStorePassword.setRequired(true);
-        keyStorePassword.setReadOnly(false);
-        keyStorePassword.setVisible(true);
-        keyStorePassword.setList(false);
-        keyStorePassword.setMultiSelect(false);
-        keyStorePassword.setGroup("Key Store");
+        keyStorePassword.setType(AttributeType.DATA);
+        keyStorePassword.setContentType(AttributeContentType.SECRET);
+        DataAttributeProperties keyStorePasswordProperties = new DataAttributeProperties();
+        keyStorePasswordProperties.setLabel(ATTRIBUTE_KEYSTORE_PASSWORD_LABEL);
+        keyStorePasswordProperties.setRequired(true);
+        keyStorePasswordProperties.setReadOnly(false);
+        keyStorePasswordProperties.setVisible(true);
+        keyStorePasswordProperties.setList(false);
+        keyStorePasswordProperties.setMultiSelect(false);
+        keyStorePasswordProperties.setGroup("Key Store");
+        keyStorePassword.setProperties(keyStorePasswordProperties);
         attrs.add(keyStorePassword);
 
-        AttributeDefinition trustStoreType = new AttributeDefinition();
+        DataAttribute trustStoreType = new DataAttribute();
         trustStoreType.setUuid("c4454807-805a-44e2-81d1-94b56e993786");
         trustStoreType.setName(ATTRIBUTE_TRUSTSTORE_TYPE);
-        trustStoreType.setLabel(ATTRIBUTE_TRUSTSTORE_TYPE_LABEL);
         trustStoreType.setDescription("Trust store type");
-        trustStoreType.setType(AttributeType.STRING);
-        trustStoreType.setRequired(false);
-        trustStoreType.setReadOnly(false);
-        trustStoreType.setVisible(true);
-        trustStoreType.setList(true);
-        trustStoreType.setMultiSelect(false);
+        trustStoreType.setType(AttributeType.DATA);
+        trustStoreType.setContentType(AttributeContentType.STRING);
+        DataAttributeProperties trustStoreTypeProperties = new DataAttributeProperties();
+        trustStoreTypeProperties.setLabel(ATTRIBUTE_TRUSTSTORE_TYPE_LABEL);
+        trustStoreTypeProperties.setRequired(false);
+        trustStoreTypeProperties.setReadOnly(false);
+        trustStoreTypeProperties.setVisible(true);
+        trustStoreTypeProperties.setList(true);
+        trustStoreTypeProperties.setMultiSelect(false);
         trustStoreType.setContent(keyStoreTypes);
-        trustStoreType.setGroup("Trust Store");
+        trustStoreTypeProperties.setGroup("Trust Store");
+        trustStoreType.setProperties(trustStoreTypeProperties);
         attrs.add(trustStoreType);
 
-        AttributeDefinition trustStore = new AttributeDefinition();
+        DataAttribute trustStore = new DataAttribute();
         trustStore.setUuid("6a245220-eaf4-44cb-9079-2228ad9264f5");
         trustStore.setName(ATTRIBUTE_TRUSTSTORE);
-        trustStore.setLabel(ATTRIBUTE_TRUSTSTORE_LABEL);
         trustStore.setDescription("Trust store file");
-        trustStore.setType(AttributeType.FILE);
-        trustStore.setRequired(false);
-        trustStore.setReadOnly(false);
-        trustStore.setVisible(true);
-        trustStore.setList(false);
-        trustStore.setMultiSelect(false);
-        trustStore.setGroup("Trust Store");
+        trustStore.setType(AttributeType.DATA);
+        trustStore.setContentType(AttributeContentType.FILE);
+        DataAttributeProperties trustStoreProperties = new DataAttributeProperties();
+        trustStoreProperties.setLabel(ATTRIBUTE_TRUSTSTORE_LABEL);
+        trustStoreProperties.setRequired(false);
+        trustStoreProperties.setReadOnly(false);
+        trustStoreProperties.setVisible(true);
+        trustStoreProperties.setList(false);
+        trustStoreProperties.setMultiSelect(false);
+        trustStoreProperties.setGroup("Trust Store");
+        trustStore.setProperties(trustStoreProperties);
         attrs.add(trustStore);
 
-        AttributeDefinition trustStorePassword = new AttributeDefinition();
+        DataAttribute trustStorePassword = new DataAttribute();
         trustStorePassword.setUuid("85a874da-1413-4770-9830-4188a37c95ee");
         trustStorePassword.setName(ATTRIBUTE_TRUSTSTORE_PASSWORD);
-        trustStorePassword.setLabel(ATTRIBUTE_TRUSTSTORE_PASSWORD_LABEL);
         trustStorePassword.setDescription("Trust store password");
-        trustStorePassword.setType(AttributeType.SECRET);
-        trustStorePassword.setRequired(false);
-        trustStorePassword.setReadOnly(false);
-        trustStorePassword.setVisible(true);
-        trustStorePassword.setList(false);
-        trustStorePassword.setMultiSelect(false);
-        trustStorePassword.setGroup("Trust Store");
+        trustStorePassword.setType(AttributeType.DATA);
+        trustStorePassword.setContentType(AttributeContentType.SECRET);
+        DataAttributeProperties trustStorePasswordProperties = new DataAttributeProperties();
+        trustStorePasswordProperties.setLabel(ATTRIBUTE_TRUSTSTORE_PASSWORD_LABEL);
+        trustStorePasswordProperties.setRequired(false);
+        trustStorePasswordProperties.setReadOnly(false);
+        trustStorePasswordProperties.setVisible(true);
+        trustStorePasswordProperties.setList(false);
+        trustStorePasswordProperties.setMultiSelect(false);
+        trustStorePasswordProperties.setGroup("Trust Store");
+        trustStorePassword.setProperties(trustStorePasswordProperties);
         attrs.add(trustStorePassword);
 
         return attrs;
@@ -190,12 +214,12 @@ public class AttributeServiceImpl implements AttributeService {
         AttributeDefinitionUtils.validateAttributes(getSofKeyStoreAttributes(), attributes);
 
         try {
-            String keyStoreBase64 = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_KEYSTORE, attributes, FileAttributeContent.class);
+            String keyStoreBase64 = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_KEYSTORE, attributes, FileAttributeContent.class).get(0).getData().getContent();
             byte[] keyStoreBytes = Base64.getDecoder().decode(keyStoreBase64);
 
-            String keyStoreType = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_KEYSTORE_TYPE, attributes, BaseAttributeContent.class);
+            String keyStoreType = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_KEYSTORE_TYPE, attributes, StringAttributeContent.class).get(0).getData();
 
-            String keyStorePassword = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_KEYSTORE_PASSWORD, attributes, BaseAttributeContent.class);
+            String keyStorePassword = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_KEYSTORE_PASSWORD, attributes, SecretAttributeContent.class).get(0).getData().getSecret();
 
             KeyStore keyStore = KeyStore.getInstance(keyStoreType);
             keyStore.load(new ByteArrayInputStream(keyStoreBytes), keyStorePassword.toCharArray());
@@ -207,22 +231,24 @@ public class AttributeServiceImpl implements AttributeService {
         }
 
         try {
-            String trustStoreBase64 = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_TRUSTSTORE, attributes, FileAttributeContent.class);
+            List<FileAttributeContent> trustStoreBase64 = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_TRUSTSTORE, attributes, FileAttributeContent.class);
 
-            String trustStoreType = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_TRUSTSTORE_TYPE, attributes, BaseAttributeContent.class);
+            List<StringAttributeContent> trustStoreType = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_TRUSTSTORE_TYPE, attributes, StringAttributeContent.class);
 
-            String trustStorePassword = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_TRUSTSTORE_PASSWORD, attributes, BaseAttributeContent.class);
+            List<SecretAttributeContent> trustStorePassword = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_TRUSTSTORE_PASSWORD, attributes, SecretAttributeContent.class);
 
-            if((trustStoreBase64 != null && !trustStoreBase64.isBlank()) || (trustStoreType != null && !trustStoreType.isBlank()) || (trustStorePassword != null && !trustStorePassword.isBlank())){
-                if(StringUtils.isAnyBlank(trustStoreBase64, trustStoreType, trustStorePassword)){
+            if((trustStoreBase64 != null && !trustStoreBase64.isEmpty() && trustStoreBase64.get(0).getData() != null && trustStoreBase64.get(0).getData().getContent() != null)
+                    || (trustStoreType != null && !trustStoreType.isEmpty() && trustStoreType.get(0).getData() != null)
+                    || (trustStorePassword != null && !trustStorePassword.isEmpty() && trustStorePassword.get(0).getData() != null)) {
+                if(StringUtils.isAnyBlank(trustStoreBase64.get(0).getData().getContent(), trustStoreType.get(0).getData(), trustStorePassword.get(0).getData().getSecret())){
                     throw new ValidationException(ValidationError.create("All attributes required for truststore must be provided"));
                 }
             }
 
-            if (!StringUtils.isAnyBlank(trustStoreBase64, trustStoreType, trustStorePassword)) {
-                byte[] trustStoreBytes = Base64.getDecoder().decode(trustStoreBase64);
-                KeyStore trustStore = KeyStore.getInstance(trustStoreType);
-                trustStore.load(new ByteArrayInputStream(trustStoreBytes), trustStorePassword.toCharArray());
+            if (!StringUtils.isAnyBlank(trustStoreBase64.get(0).getData().getContent(), trustStoreType.get(0).getData(), trustStorePassword.get(0).getData().getSecret())) {
+                byte[] trustStoreBytes = Base64.getDecoder().decode(trustStoreBase64.get(0).getData().getContent());
+                KeyStore trustStore = KeyStore.getInstance(trustStoreType.get(0).getData());
+                trustStore.load(new ByteArrayInputStream(trustStoreBytes), trustStorePassword.get(0).getData().getSecret().toCharArray());
                 logger.info("Trust store attribute successfully validated. Given trust store contains: {}", trustStore.aliases());
             }
         } catch (Exception e) {
@@ -233,35 +259,41 @@ public class AttributeServiceImpl implements AttributeService {
         return true;
     }
 
-    private List<AttributeDefinition> getBasicAttributes() {
-        List<AttributeDefinition> attrs = new ArrayList<>();
+    private List<BaseAttribute> getBasicAttributes() {
+        List<BaseAttribute> attrs = new ArrayList<>();
 
-        AttributeDefinition username = new AttributeDefinition();
+        DataAttribute username = new DataAttribute();
         username.setUuid("fe2d6d35-fb3d-4ea0-9f0b-7e39be93beeb");
         username.setName(ATTRIBUTE_USERNAME);
-        username.setLabel(ATTRIBUTE_USERNAME_LABEL);
         username.setDescription("Username");
-        username.setType(AttributeType.STRING);
-        username.setRequired(true);
-        username.setReadOnly(false);
-        username.setVisible(true);
-        username.setList(false);
-        username.setMultiSelect(false);
-        username.setGroup("Basic");
+        username.setType(AttributeType.DATA);
+        username.setContentType(AttributeContentType.STRING);
+        DataAttributeProperties usernameProperties = new DataAttributeProperties();
+        usernameProperties.setLabel(ATTRIBUTE_USERNAME_LABEL);
+        usernameProperties.setRequired(true);
+        usernameProperties.setReadOnly(false);
+        usernameProperties.setVisible(true);
+        usernameProperties.setList(false);
+        usernameProperties.setMultiSelect(false);
+        usernameProperties.setGroup("Basic");
+        username.setProperties(usernameProperties);
         attrs.add(username);
 
-        AttributeDefinition password = new AttributeDefinition();
+        DataAttribute password = new DataAttribute();
         password.setUuid("04506d45-c865-4ddc-b6fc-117ee5d5c8e7");
         password.setName(ATTRIBUTE_PASSWORD);
-        password.setLabel(ATTRIBUTE_PASSWORD_LABEL);
         password.setDescription("Password");
-        password.setType(AttributeType.SECRET);
-        password.setRequired(true);
-        password.setReadOnly(false);
-        password.setVisible(true);
-        password.setList(false);
-        password.setMultiSelect(false);
-        password.setGroup("Basic");
+        password.setType(AttributeType.DATA);
+        password.setContentType(AttributeContentType.SECRET);
+        DataAttributeProperties passwordProperties = new DataAttributeProperties();
+        passwordProperties.setLabel(ATTRIBUTE_PASSWORD_LABEL);
+        passwordProperties.setRequired(true);
+        passwordProperties.setReadOnly(false);
+        passwordProperties.setVisible(true);
+        passwordProperties.setList(false);
+        passwordProperties.setMultiSelect(false);
+        passwordProperties.setGroup("Basic");
+        password.setProperties(passwordProperties);
         attrs.add(password);
 
         return attrs;
@@ -272,21 +304,24 @@ public class AttributeServiceImpl implements AttributeService {
         return true;
     }
 
-    private List<AttributeDefinition> getApiKeyAttributes() {
-        List<AttributeDefinition> attrs = new ArrayList<>();
+    private List<BaseAttribute> getApiKeyAttributes() {
+        List<BaseAttribute> attrs = new ArrayList<>();
 
-        AttributeDefinition apiKey = new AttributeDefinition();
+        DataAttribute apiKey = new DataAttribute();
         apiKey.setUuid("aac5c2d5-5dc3-4ddb-9dfa-3d76b99135f8");
         apiKey.setName(ATTRIBUTE_APIKEY);
-        apiKey.setLabel(ATTRIBUTE_APIKEY_LABEL);
         apiKey.setDescription("API Key");
-        apiKey.setType(AttributeType.SECRET);
-        apiKey.setRequired(true);
-        apiKey.setReadOnly(false);
-        apiKey.setVisible(true);
-        apiKey.setList(false);
-        apiKey.setMultiSelect(false);
-        apiKey.setGroup("API Key");
+        apiKey.setType(AttributeType.DATA);
+        apiKey.setContentType(AttributeContentType.SECRET);
+        DataAttributeProperties apiKeyProperties = new DataAttributeProperties();
+        apiKeyProperties.setLabel(ATTRIBUTE_APIKEY_LABEL);
+        apiKeyProperties.setRequired(true);
+        apiKeyProperties.setReadOnly(false);
+        apiKeyProperties.setVisible(true);
+        apiKeyProperties.setList(false);
+        apiKeyProperties.setMultiSelect(false);
+        apiKeyProperties.setGroup("API Key");
+        apiKey.setProperties(apiKeyProperties);
         attrs.add(apiKey);
 
         return attrs;
