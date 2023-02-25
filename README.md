@@ -31,5 +31,5 @@ Common Credential Provider is provided as a Docker container. Use the `3keycompa
 
 | Variable    | Description                                              | Required                                      | Default value |
 |-------------|----------------------------------------------------------|-----------------------------------------------|---------------|
-| `PORT`      | Port where the service is exposed                        | ![](https://img.shields.io/badge/-NO-red.svg) | `8081`        |
+| `PORT`      | Port where the service is exposed                        | ![](https://img.shields.io/badge/-NO-red.svg) | `8080`        |
 | `JAVA_OPTS` | Customize Java system properties for running application | ![](https://img.shields.io/badge/-NO-red.svg) | `N/A`         |
