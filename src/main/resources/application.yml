@@ -1,6 +1,17 @@
 server:
-  port: ${PORT:8081}
+  port: ${PORT:8080}
   error:
     include-message: ${INCLUDE_ERROR:always}
 keyStore:
   supportedTypes: PKCS12, JKS
+
+management:
+  endpoints:
+    web:
+      base-path: '/'
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
