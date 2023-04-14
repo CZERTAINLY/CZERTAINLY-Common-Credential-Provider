@@ -232,24 +232,25 @@ public class AttributeServiceImpl implements AttributeService {
 
         try {
             List<FileAttributeContent> trustStoreBase64 = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_TRUSTSTORE, attributes, FileAttributeContent.class);
-
             List<StringAttributeContent> trustStoreType = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_TRUSTSTORE_TYPE, attributes, StringAttributeContent.class);
-
             List<SecretAttributeContent> trustStorePassword = AttributeDefinitionUtils.getAttributeContentValue(ATTRIBUTE_TRUSTSTORE_PASSWORD, attributes, SecretAttributeContent.class);
 
-            if((trustStoreBase64 != null && !trustStoreBase64.isEmpty() && trustStoreBase64.get(0).getData() != null && trustStoreBase64.get(0).getData().getContent() != null)
-                    || (trustStoreType != null && !trustStoreType.isEmpty() && trustStoreType.get(0).getData() != null)
-                    || (trustStorePassword != null && !trustStorePassword.isEmpty() && trustStorePassword.get(0).getData() != null)) {
+            boolean isSetTrustStoreBase64 = trustStoreBase64 != null && !trustStoreBase64.isEmpty() && trustStoreBase64.get(0).getData() != null && trustStoreBase64.get(0).getData().getContent() != null;
+            boolean isSetTrustStoreType = trustStoreType != null && !trustStoreType.isEmpty() && trustStoreType.get(0).getData() != null;
+            boolean isSetTrustStorePassword = trustStorePassword != null && !trustStorePassword.isEmpty() && trustStorePassword.get(0).getData() != null;
+
+            if(isSetTrustStoreBase64 && isSetTrustStoreType && isSetTrustStorePassword) {
                 if(StringUtils.isAnyBlank(trustStoreBase64.get(0).getData().getContent(), trustStoreType.get(0).getData(), trustStorePassword.get(0).getData().getSecret())){
                     throw new ValidationException(ValidationError.create("All attributes required for truststore must be provided"));
                 }
-            }
 
-            if (!StringUtils.isAnyBlank(trustStoreBase64.get(0).getData().getContent(), trustStoreType.get(0).getData(), trustStorePassword.get(0).getData().getSecret())) {
                 byte[] trustStoreBytes = Base64.getDecoder().decode(trustStoreBase64.get(0).getData().getContent());
                 KeyStore trustStore = KeyStore.getInstance(trustStoreType.get(0).getData());
                 trustStore.load(new ByteArrayInputStream(trustStoreBytes), trustStorePassword.get(0).getData().getSecret().toCharArray());
                 logger.info("Trust store attribute successfully validated. Given trust store contains: {}", trustStore.aliases());
+            }
+            else if (isSetTrustStoreBase64 || isSetTrustStoreType || isSetTrustStorePassword) {
+                throw new ValidationException(ValidationError.create("All attributes required for truststore must be provided"));
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
